@@ -17,12 +17,12 @@ export default function CivicEngage() {
         <div className="civic-engage">
             <h1>CivicEngage Alerts</h1>
             <hr />
-            <p>Latest alerts from the City of Charlottesville's CivicEngage platform.</p>
+            <p>Get the latest alerts from the City of Charlottesville's CivicEngage platform, organized by topic.</p>
             <nav className="navbar">
-                <NavLink to="police">Police</NavLink>
-                <NavLink to="fire">Fire</NavLink>
-                <NavLink to="traffic">Traffic</NavLink>
-                <NavLink to="utilities">Utilities</NavLink>
+                <NavLink to="police" className="civic" >Police</NavLink>
+                <NavLink to="fire" className="civic">Fire</NavLink>
+                <NavLink to="traffic" className="civic">Traffic</NavLink>
+                <NavLink to="utilities" className="civic">Utilities</NavLink>
             </nav>
             <Outlet />
         </div>
