@@ -5,6 +5,8 @@ import NotFoundPage from './NotFoundPage/NotFoundPage'
 import CivicEngage from './CivicEngage/CivicEngage'
 import PoliceAlerts from './CivicEngage/PoliceAlerts'
 import FireAlerts from './CivicEngage/FireAlerts'
+import TrafficAlerts from './CivicEngage/TrafficAlerts'
+import UtilitiesAlerts from './CivicEngage/UtilitiesAlerts'
 
 export default function AppRoutes() {
   return (
@@ -16,6 +18,8 @@ export default function AppRoutes() {
           <Route path="civicengage" element={<CivicEngage />} >
             <Route path="police" element={<PoliceAlerts />} />
             <Route path="fire" element={<FireAlerts />} />
+            <Route path="traffic" element={<TrafficAlerts />} />
+            <Route path="utilities" element={<UtilitiesAlerts />} />
           </Route>
         </Route>
       </Routes>
