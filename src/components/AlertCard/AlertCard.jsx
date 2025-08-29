@@ -1,9 +1,6 @@
 import "./AlertCard.scss"
 
 export default function AlertCard({ alert }) {
-
-    console.log(alert)
-
     return (
         <div className="alert card">
             <h5>{alert.pubDate.substring(0, alert.pubDate.length - 5)}</h5>

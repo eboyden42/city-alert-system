@@ -1,6 +1,7 @@
 import "./CivicEngage.scss"
 import AlertCard from "../components/AlertCard/AlertCard"
 import { useState, useEffect } from "react"
+import { Outlet, NavLink } from "react-router"
 
 export default function CivicEngage() {
     const [alerts, setAlerts] = useState([])
@@ -17,12 +18,13 @@ export default function CivicEngage() {
             <h1>CivicEngage Alerts</h1>
             <hr />
             <p>Latest alerts from the City of Charlottesville's CivicEngage platform.</p>
-            {
-                alerts.map((alert, index) => (
-                    <AlertCard key={index} alert={alert} />
-                ))
-            }
-
+            <nav>
+                <NavLink to="police">Police</NavLink>
+                <NavLink to="fire">Fire</NavLink>
+                <NavLink to="traffic">Traffic</NavLink>
+                <NavLink to="utilities">Utilities</NavLink>
+            </nav>
+            <Outlet />
         </div>
     )
 }
