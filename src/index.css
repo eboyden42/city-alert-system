@@ -55,7 +55,7 @@ strong {
 
 .header,
 .navbar {
-  background: var(--background-color);
+  background: var(--secondary-color);
   color: var(--primary-color);
   padding: 1em;
   display: flex;

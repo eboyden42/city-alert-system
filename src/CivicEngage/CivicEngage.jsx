@@ -18,7 +18,7 @@ export default function CivicEngage() {
             <h1>CivicEngage Alerts</h1>
             <hr />
             <p>Latest alerts from the City of Charlottesville's CivicEngage platform.</p>
-            <nav>
+            <nav className="navbar">
                 <NavLink to="police">Police</NavLink>
                 <NavLink to="fire">Fire</NavLink>
                 <NavLink to="traffic">Traffic</NavLink>
