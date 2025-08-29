@@ -1,0 +1,29 @@
+import "./NavBar.scss"
+import { NavLink } from "react-router"
+
+export default function NavBar() {
+    return (
+        <nav className="navbar">
+            <a href="/" className="navbar-home-link">
+                <div className="navbar-logo">
+                    <img src="/logo.png" alt="Charlottesville Logo" />
+                    <h1>CCAS</h1>
+                </div>
+            </a>
+            <ul className="navbar-links">
+                <li>
+                    <NavLink to="/civicengage" activeClassName="active">CivicEngage</NavLink>
+                </li>
+                <li>
+                    <NavLink to="/nws" activeClassName="active">NWS</NavLink>
+                </li>
+                <li>
+                    <NavLink to="/airnow" activeClassName="active">AirNow</NavLink>
+                </li>
+                <li>
+                    <NavLink to="/newscatcher" activeClassName="active">NewsCatcher</NavLink>
+                </li>
+            </ul>
+        </nav>
+    )
+}
