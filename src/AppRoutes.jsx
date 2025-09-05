@@ -7,6 +7,7 @@ import PoliceAlerts from './CivicEngage/PoliceAlerts'
 import FireAlerts from './CivicEngage/FireAlerts'
 import TrafficAlerts from './CivicEngage/TrafficAlerts'
 import UtilitiesAlerts from './CivicEngage/UtilitiesAlerts'
+import NWSPage from './NWSPage/NWSPage'
 
 export default function AppRoutes() {
   return (
@@ -21,6 +22,7 @@ export default function AppRoutes() {
             <Route path="traffic" element={<TrafficAlerts />} />
             <Route path="utilities" element={<UtilitiesAlerts />} />
           </Route>
+          <Route path="nws" element={<NWSPage />} />
         </Route>
       </Routes>
     </Router>
