@@ -20,13 +20,13 @@ export default function HomePage() {
             <h2>Plan</h2>
             <p>
                 Once the data sources are all integrated and working, the next steps will be:
-                <ul>
-                    <li>Add AI summary feature for complicated alerts, or multiple related alerts.</li>
-                    <li>Implement simple email notification service.</li>
-                    <li>Add user authentication and profile management for setting emails and notification settings.</li>
-                    <li>Integrate with Microsoft Teams for team-wide alert distribution.</li>
-                </ul>
             </p>
+            <ul>
+                <li>Add AI summary feature for complicated alerts, or multiple related alerts.</li>
+                <li>Implement simple email notification service.</li>
+                <li>Add user authentication and profile management for setting emails and notification settings.</li>
+                <li>Integrate with Microsoft Teams for team-wide alert distribution.</li>
+            </ul>
         </div>
     )
 }

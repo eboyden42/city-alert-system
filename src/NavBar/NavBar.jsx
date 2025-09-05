@@ -12,16 +12,16 @@ export default function NavBar() {
             </a>
             <ul className="navbar-links">
                 <li>
-                    <NavLink to="/civicengage" activeClassName="active">CivicEngage</NavLink>
+                    <NavLink to="/civicengage" activeclassname="active">CivicEngage</NavLink>
                 </li>
                 <li>
-                    <NavLink to="/nws" activeClassName="active">NWS</NavLink>
+                    <NavLink to="/nws" activeclassname="active">NWS</NavLink>
                 </li>
                 <li>
-                    <NavLink to="/airnow" activeClassName="active">AirNow</NavLink>
+                    <NavLink to="/airnow" activeclassname="active">AirNow</NavLink>
                 </li>
                 <li>
-                    <NavLink to="/newscatcher" activeClassName="active">NewsCatcher</NavLink>
+                    <NavLink to="/newscatcher" activeclassname="active">NewsCatcher</NavLink>
                 </li>
             </ul>
         </nav>
