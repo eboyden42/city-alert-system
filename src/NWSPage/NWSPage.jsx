@@ -6,7 +6,7 @@ export default function NWSPage() {
     const [nwsAlerts, setNwsAlerts] = useState([])
 
     useEffect(() => {
-        fetch("http://localhost:3001/nws")
+        fetch(`${import.meta.env.VITE_API_URL}/nws`)
             .then(response => response.json())
             .then(data => setNwsAlerts(data))
             .catch(error => console.error("Error fetching NWS alerts:", error))

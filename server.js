@@ -1,6 +1,7 @@
 import RSSparser from "rss-parser"
 import cors from "cors"
 import express from "express"
+import * as cheerio from 'cheerio'
 
 const app = express()
 const port = 3001
@@ -12,6 +13,7 @@ let fireAlerts = []
 let trafficAlerts = []
 let utilitiesAlerts = []
 let nwsAlerts = []
+let airNowAlerts = []
 
 // CivicEngage RSS Feed fetching functions
 
@@ -84,9 +86,10 @@ async function fetchUtilitiesRSS() {
 }
 
 // NWS Charlottesville Weather Advisory API VAZ037
+// to see what a real alert looks like go here use this zone id: PKZ771
 
 async function fetchNWSAlerts() {
-  fetch("https://api.weather.gov/alerts/active/zone/PKZ771")
+  fetch("https://api.weather.gov/alerts/active/zone/VAZ037")
     .then(response => response.json())
     .then(data => {
       // If the features list is not empty
@@ -100,13 +103,57 @@ async function fetchNWSAlerts() {
           }
           nwsAlerts.push(alert)
         }
-
-        console.log(nwsAlerts)
       }
     })
     .catch(error => {
       console.error("Error fetching NWS alerts:", error);
     });
+}
+
+// AirNow Current air quality
+
+async function fetchAirNowAQI() {
+  try {
+    fetch("https://feeds.airnowapi.org/rss/realtime/1278.xml")
+      .then(data => data.text())
+      .then(feed => parser.parseString(feed))
+      .then(rss => {
+        if (rss.items && rss.items.length > 0) {
+          for (let item of rss.items) {
+
+            let airnowParsed = parseAirNowContent(item.content)
+
+            let alert = {
+              pubDate: airnowParsed.lastUpdate,
+              title: item.title,
+              contentSnippet: airnowParsed.currentAQI + " - " + airnowParsed.agency,
+              link: null
+            }
+            airNowAlerts.push(alert)
+          }
+        }
+      })
+      .catch(err => console.log(err))
+  } catch (error) {
+    console.error("Error fetching AirNow AQI data:", error);
+  }
+}
+
+// helper function to parse AirNow content
+function parseAirNowContent(content) {
+  const $ = cheerio.load(content)
+
+  const currentAQI = $("div b:contains('Current Air Quality:')").parent().text().trim();
+  const agency = $("div b:contains('Agency:')").parent().text().trim();
+  const lastUpdate = $("div i").text().trim();
+
+  let parsed = {
+    currentAQI,
+    agency,
+    lastUpdate
+  }
+
+  return parsed
 }
 
 // Fetch all CivicEngage RSS feeds
@@ -117,6 +164,9 @@ fetchUtilitiesRSS()
 
 // Fetch NWS alerts
 fetchNWSAlerts()
+
+// Fetch AirNow AQI data
+fetchAirNowAQI()
 
 app.use(cors())
 
@@ -142,4 +192,8 @@ app.get("/police", (req, res) => {
 
 app.get("/nws", (req, res) => {
   res.json(nwsAlerts)
+})
+
+app.get("/airnow", (req, res) => {
+  res.json(airNowAlerts)
 })
