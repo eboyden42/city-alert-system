@@ -26,9 +26,11 @@ async function fetchPoliceRSS() {
         pub_date: item.pubDate.substring(0, item.pubDate.length - 5),
         title: item.title,
         content: item.contentSnippet,
-        link: item.link
+        link: item.link,
+        type: "default"
       }
       policeAlerts.push(alert)
+      addAlert(alert)
     })
   } catch (error) {
     console.error("Error fetching RSS feed:", error)
@@ -43,9 +45,11 @@ async function fetchFireRSS() {
         pub_date: item.pubDate.substring(0, item.pubDate.length - 5),
         title: item.title,
         content: item.contentSnippet,
-        link: item.link
+        link: item.link,
+        type: "default"
       }
       fireAlerts.push(alert)
+      addAlert(alert)
     })
   } catch (error) {
     console.error("Error fetching Fire RSS feed:", error)
@@ -60,9 +64,11 @@ async function fetchTrafficRSS() {
         pub_date: item.pubDate.substring(0, item.pubDate.length - 5),
         title: item.title,
         content: item.contentSnippet,
-        link: item.link
+        link: item.link,
+        type: "default"
       }
       trafficAlerts.push(alert)
+      addAlert(alert)
     })
   } catch (error) {
     console.error("Error fetching Traffic RSS feed:", error)
@@ -77,9 +83,11 @@ async function fetchUtilitiesRSS() {
         pub_date: item.pubDate.substring(0, item.pubDate.length - 5),
         title: item.title,
         content: item.contentSnippet,
-        link: item.link
+        link: item.link,
+        type: "default"
       }
       utilitiesAlerts.push(alert)
+      addAlert(alert)
     })
   } catch (error) {
     console.error("Error fetching Utilities RSS feed:", error)
@@ -90,7 +98,7 @@ async function fetchUtilitiesRSS() {
 // to see what a real alert looks like go here use this zone id: PKZ771
 
 async function fetchNWSAlerts() {
-  fetch("https://api.weather.gov/alerts/active/zone/VAZ037")
+  fetch("https://api.weather.gov/alerts/active/zone/PKZ771")
     .then(response => response.json())
     .then(data => {
       // If the features list is not empty
@@ -100,9 +108,11 @@ async function fetchNWSAlerts() {
             pub_date: feature.properties.sent,
             title: feature.properties.headline,
             content: feature.properties.description,
-            link: null
+            link: null,
+            type: "default"
           }
           nwsAlerts.push(alert)
+          addAlert(alert)
         }
       }
     })
@@ -128,9 +138,11 @@ async function fetchAirNowAQI() {
               pub_date: airnowParsed.lastUpdate,
               title: item.title,
               content: airnowParsed.currentAQI + " - " + airnowParsed.agency,
-              link: null
+              link: null,
+              type: "default"
             }
             airNowAlerts.push(alert)
+            addAlert(alert)
           }
         }
       })
