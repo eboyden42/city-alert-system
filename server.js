@@ -2,6 +2,7 @@ import RSSparser from "rss-parser"
 import cors from "cors"
 import express from "express"
 import * as cheerio from 'cheerio'
+import path from "path"
 
 const app = express()
 const port = 3001
@@ -172,9 +173,7 @@ fetchAirNowAQI()
 
 app.use(cors())
 
-const server = app.listen(port, () => {
-  console.log(`Server running on port ${port}`)
-})
+app.use(express.static("dist"))
 
 app.get("/fire", (req, res) => {
   res.json(fireAlerts)
@@ -198,4 +197,8 @@ app.get("/nws", (req, res) => {
 
 app.get("/airnow", (req, res) => {
   res.json(airNowAlerts)
+})
+
+const server = app.listen(port, () => {
+  console.log(`Server running on port ${port}`)
 })
