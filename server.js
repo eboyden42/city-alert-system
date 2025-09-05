@@ -175,27 +175,27 @@ app.use(cors())
 
 app.use(express.static("dist"))
 
-app.get("/fire", (req, res) => {
+app.get("/api/fire", (req, res) => {
   res.json(fireAlerts)
 })
 
-app.get("/traffic", (req, res) => {
+app.get("/api/traffic", (req, res) => {
   res.json(trafficAlerts)
 })
 
-app.get("/utilities", (req, res) => {
+app.get("/api/utilities", (req, res) => {
   res.json(utilitiesAlerts)
 })
 
-app.get("/police", (req, res) => {
+app.get("/api/police", (req, res) => {
   res.json(policeAlerts)
 })
 
-app.get("/nws", (req, res) => {
+app.get("/api/nws", (req, res) => {
   res.json(nwsAlerts)
 })
 
-app.get("/airnow", (req, res) => {
+app.get("/api/airnow", (req, res) => {
   res.json(airNowAlerts)
 })
 

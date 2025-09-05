@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import AlertCard from '../components/AlertCard/AlertCard'
+import { fetchTrafficAlerts } from '../api'
 
 export default function TrafficAlerts() {
     const [alerts, setAlerts] = useState([])
     
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL}/traffic`)
-            .then(response => response.json())
+        fetchTrafficAlerts()
             .then(data => setAlerts(data))
             .catch(error => console.error("Error fetching alerts:", error))
     }, [])
