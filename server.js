@@ -2,7 +2,7 @@ import RSSparser from "rss-parser"
 import cors from "cors"
 import express from "express"
 import * as cheerio from 'cheerio'
-import path from "path"
+import { addAlert } from "./driver.js"
 
 const app = express()
 const port = 3001
@@ -201,4 +201,14 @@ app.get("/api/airnow", (req, res) => {
 
 const server = app.listen(port, () => {
   console.log(`Server running on port ${port}`)
+})
+
+// SUPABASE EXPERIMENTATION
+
+addAlert({
+  pub_date: "2025-09-05 14:30:45",
+  title: "EMERGENCY ALERT",
+  content: "This is a test of the UVA alert system. This alert is simply designed to annoy you.",
+  link: "https://www.virginia.edu/",
+  type: "default"
 })
