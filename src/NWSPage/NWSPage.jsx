@@ -1,15 +1,15 @@
 import "./NWSPage.scss"
 import { useEffect, useState } from "react"
 import AlertCard from "../components/AlertCard/AlertCard"
+import { fetchNWSAlerts } from "../api"
 
 export default function NWSPage() {
     const [nwsAlerts, setNwsAlerts] = useState([])
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL}/nws`)
-            .then(response => response.json())
+        fetchNWSAlerts()
             .then(data => setNwsAlerts(data))
-            .catch(error => console.error("Error fetching NWS alerts:", error))
+            .catch(error => console.error("Error fetching alerts:", error))
     }, [])
 
     return (

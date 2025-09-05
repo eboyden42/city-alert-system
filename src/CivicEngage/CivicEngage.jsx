@@ -4,14 +4,6 @@ import { useState, useEffect } from "react"
 import { Outlet, NavLink } from "react-router"
 
 export default function CivicEngage() {
-    const [alerts, setAlerts] = useState([])
-
-    useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL}/police`)
-            .then(response => response.json())
-            .then(data => setAlerts(data))
-            .catch(error => console.error("Error fetching alerts:", error))
-    }, [])
 
     return (
         <div className="civic-engage">

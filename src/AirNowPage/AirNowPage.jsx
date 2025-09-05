@@ -1,16 +1,16 @@
 import "./AirNowPage.scss"
 import { useEffect, useState } from "react"
 import AlertCard from "../components/AlertCard/AlertCard"
+import { fetchAirNowAlerts } from "../api"
 
 export default function AirNowPage() {
 
     const [airNowAlerts, setAirNowAlerts] = useState([])
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL}/airnow`)
-            .then(res => res.json())
+        fetchAirNowAlerts()
             .then(data => setAirNowAlerts(data))
-            .catch(err => console.log(err))
+            .catch(error => console.error("Error fetching alerts:", error))
     }, [])
 
     return (
