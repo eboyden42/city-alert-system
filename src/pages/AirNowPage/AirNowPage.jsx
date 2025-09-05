@@ -1,7 +1,7 @@
 import "./AirNowPage.scss"
 import { useEffect, useState } from "react"
-import AlertCard from "../components/AlertCard/AlertCard"
-import { fetchAirNowAlerts } from "../api"
+import AlertCard from "../../components/AlertCard/AlertCard"
+import { fetchAirNowAlerts } from "../../api"
 
 export default function AirNowPage() {
 

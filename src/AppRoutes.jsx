@@ -1,14 +1,14 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import BaseLayout from './BaseLayout/BaseLayout'
-import HomePage from './HomePage/HomePage'
-import NotFoundPage from './NotFoundPage/NotFoundPage'
-import CivicEngage from './CivicEngage/CivicEngage'
-import PoliceAlerts from './CivicEngage/PoliceAlerts'
-import FireAlerts from './CivicEngage/FireAlerts'
-import TrafficAlerts from './CivicEngage/TrafficAlerts'
-import UtilitiesAlerts from './CivicEngage/UtilitiesAlerts'
-import NWSPage from './NWSPage/NWSPage'
-import AirNowPage from './AirNowPage/AirNowPage'
+import HomePage from './pages/HomePage/HomePage'
+import NotFoundPage from './pages/NotFoundPage/NotFoundPage'
+import CivicEngage from './pages/CivicEngage/CivicEngage'
+import PoliceAlerts from './pages/CivicEngage/PoliceAlerts'
+import FireAlerts from './pages/CivicEngage/FireAlerts'
+import TrafficAlerts from './pages/CivicEngage/TrafficAlerts'
+import UtilitiesAlerts from './pages/CivicEngage/UtilitiesAlerts'
+import NWSPage from './pages/NWSPage/NWSPage'
+import AirNowPage from './pages/AirNowPage/AirNowPage'
 
 export default function AppRoutes() {
   return (

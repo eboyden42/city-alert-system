@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import AlertCard from '../components/AlertCard/AlertCard'
-import { fetchUtilitiesAlerts } from '../api'
+import AlertCard from '../../components/AlertCard/AlertCard'
+import { fetchUtilitiesAlerts } from '../../api'
     
 export default function UtilitiesAlerts() {
     const [alerts, setAlerts] = useState([])

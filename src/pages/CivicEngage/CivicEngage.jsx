@@ -1,5 +1,5 @@
 import "./CivicEngage.scss"
-import AlertCard from "../components/AlertCard/AlertCard"
+import AlertCard from "../../components/AlertCard/AlertCard"
 import { useState, useEffect } from "react"
 import { Outlet, NavLink } from "react-router"
 

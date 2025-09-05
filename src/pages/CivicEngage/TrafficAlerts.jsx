@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import AlertCard from '../components/AlertCard/AlertCard'
-import { fetchTrafficAlerts } from '../api'
+import AlertCard from '../../components/AlertCard/AlertCard'
+import { fetchTrafficAlerts } from '../../api'
 
 export default function TrafficAlerts() {
     const [alerts, setAlerts] = useState([])
