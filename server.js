@@ -156,6 +156,8 @@ function parseAirNowContent(content) {
   return parsed
 }
 
+
+
 // Fetch all CivicEngage RSS feeds
 fetchPoliceRSS()
 fetchFireRSS()
