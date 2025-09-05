@@ -8,3 +8,16 @@ export async function addAlert(alert) {
         console.log("Successfully added alert to supabase...")
     }
 }
+
+export async function getAllAlerts() {
+    let { data: alerts, error } = await supabase
+        .from('alerts')
+        .select('*')
+        .order('pub_date', { ascending: false })
+        .limit(20)
+    
+    if (error) {
+        console.error("Error fetching alerts:", error)
+    }
+    return alerts
+}

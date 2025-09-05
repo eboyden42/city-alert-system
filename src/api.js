@@ -33,3 +33,7 @@ export function fetchNWSAlerts() {
 export function fetchAirNowAlerts() {
     return request("/airnow")
 }
+
+export function fetchAllAlerts() {
+    return request("/allalerts")
+}

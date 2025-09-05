@@ -23,6 +23,9 @@ export default function NavBar() {
                 <li>
                     <NavLink to="/newscatcher" activeclassname="active">NewsCatcher</NavLink>
                 </li>
+                <li>
+                    <NavLink to="/allalerts" activeclassname="active">All Alerts</NavLink>
+                </li>
             </ul>
         </nav>
     )

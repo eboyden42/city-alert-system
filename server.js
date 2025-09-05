@@ -2,7 +2,7 @@ import RSSparser from "rss-parser"
 import cors from "cors"
 import express from "express"
 import * as cheerio from 'cheerio'
-import { addAlert } from "./driver.js"
+import { addAlert, getAllAlerts } from "./driver.js"
 
 const app = express()
 const port = 3001
@@ -23,9 +23,9 @@ async function fetchPoliceRSS() {
     const feed = await parser.parseURL("https://www.charlottesville.gov/RSSFeed.aspx?ModID=1&CID=Charlottesville-Police-News-5")
     feed.items.forEach(item => {
       let alert = {
-        pubDate: item.pubDate.substring(0, item.pubDate.length - 5),
+        pub_date: item.pubDate.substring(0, item.pubDate.length - 5),
         title: item.title,
-        contentSnippet: item.contentSnippet,
+        content: item.contentSnippet,
         link: item.link
       }
       policeAlerts.push(alert)
@@ -40,9 +40,9 @@ async function fetchFireRSS() {
     const feed = await parser.parseURL("https://www.charlottesville.gov/RSSFeed.aspx?ModID=1&CID=Charlottesville-Fire-News-13")
     feed.items.forEach(item => {
       let alert = {
-        pubDate: item.pubDate.substring(0, item.pubDate.length - 5),
+        pub_date: item.pubDate.substring(0, item.pubDate.length - 5),
         title: item.title,
-        contentSnippet: item.contentSnippet,
+        content: item.contentSnippet,
         link: item.link
       }
       fireAlerts.push(alert)
@@ -57,9 +57,9 @@ async function fetchTrafficRSS() {
     const feed = await parser.parseURL("https://www.charlottesville.gov/RSSFeed.aspx?ModID=1&CID=Traffic-Advisory-11")
     feed.items.forEach(item => {
       let alert = {
-        pubDate: item.pubDate.substring(0, item.pubDate.length - 5),
+        pub_date: item.pubDate.substring(0, item.pubDate.length - 5),
         title: item.title,
-        contentSnippet: item.contentSnippet,
+        content: item.contentSnippet,
         link: item.link
       }
       trafficAlerts.push(alert)
@@ -74,9 +74,9 @@ async function fetchUtilitiesRSS() {
     const feed = await parser.parseURL("https://www.charlottesville.gov/RSSFeed.aspx?ModID=1&CID=Utilities-News-20")
     feed.items.forEach(item => {
       let alert = {
-        pubDate: item.pubDate.substring(0, item.pubDate.length - 5),
+        pub_date: item.pubDate.substring(0, item.pubDate.length - 5),
         title: item.title,
-        contentSnippet: item.contentSnippet,
+        content: item.contentSnippet,
         link: item.link
       }
       utilitiesAlerts.push(alert)
@@ -97,9 +97,9 @@ async function fetchNWSAlerts() {
       if (data.features && data.features.length > 0) {
         for (let feature of data.features) {
           let alert = {
-            pubDate: feature.properties.sent,
+            pub_date: feature.properties.sent,
             title: feature.properties.headline,
-            contentSnippet: feature.properties.description,
+            content: feature.properties.description,
             link: null
           }
           nwsAlerts.push(alert)
@@ -125,9 +125,9 @@ async function fetchAirNowAQI() {
             let airnowParsed = parseAirNowContent(item.content)
 
             let alert = {
-              pubDate: airnowParsed.lastUpdate,
+              pub_date: airnowParsed.lastUpdate,
               title: item.title,
-              contentSnippet: airnowParsed.currentAQI + " - " + airnowParsed.agency,
+              content: airnowParsed.currentAQI + " - " + airnowParsed.agency,
               link: null
             }
             airNowAlerts.push(alert)
@@ -199,16 +199,25 @@ app.get("/api/airnow", (req, res) => {
   res.json(airNowAlerts)
 })
 
+app.get("/api/allalerts", (req, res) => {
+  getAllAlerts().then(alerts => {
+    res.json(alerts)
+  }).catch(error => {
+    console.error("Error fetching all alerts:", error)
+    res.status(500).json({ error: "Internal Server Error" })
+  })
+})
+
 const server = app.listen(port, () => {
   console.log(`Server running on port ${port}`)
 })
 
 // SUPABASE EXPERIMENTATION
 
-addAlert({
-  pub_date: "2025-09-05 14:30:45",
-  title: "EMERGENCY ALERT",
-  content: "This is a test of the UVA alert system. This alert is simply designed to annoy you.",
-  link: "https://www.virginia.edu/",
-  type: "default"
-})
+// addAlert({
+//   pub_date: "2025-09-05 14:30:45",
+//   title: "EMERGENCY ALERT",
+//   content: "This is a test of the UVA alert system. This alert is simply designed to annoy you.",
+//   link: "https://www.virginia.edu/",
+//   type: "default"
+// })
