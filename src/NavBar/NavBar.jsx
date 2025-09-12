@@ -27,6 +27,16 @@ export default function NavBar() {
                     <NavLink to="/allalerts" activeclassname="active">All Alerts</NavLink>
                 </li>
             </ul>
+            <ul className="navbar-links right">
+                <li>
+                    
+                    <NavLink to="/auth" activeclassname="active">
+                        <button>
+                            Login
+                        </button>
+                    </NavLink>
+                </li>
+            </ul>
         </nav>
     )
 }
