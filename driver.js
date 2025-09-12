@@ -21,3 +21,17 @@ export async function getAllAlerts() {
     }
     return alerts
 }
+
+export async function signUpUser(email, password) {
+    const { error } = supabase.auth.signUp({email, password})
+    if (error) {
+        return error
+    }
+}
+
+export async function signInUser(email, password) {
+    const { error } = supabase.auth.signInWithPassword({email, password})
+    if (error) {
+        return error
+    }
+}

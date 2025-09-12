@@ -37,3 +37,23 @@ export function fetchAirNowAlerts() {
 export function fetchAllAlerts() {
     return request("/allalerts")
 }
+
+export function userSignUp(email, password) {
+    return request("/usersignup", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password })
+    })
+}
+
+export function userLogIn(email, password) {
+    return request("/userlogin", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password })
+    })
+}

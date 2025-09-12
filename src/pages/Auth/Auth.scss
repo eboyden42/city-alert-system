@@ -1,0 +1,31 @@
+.login-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        
+        input {
+            padding: 0.5rem;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 300px;
+        }
+        
+    }
+
+    .register-link {
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        cursor: pointer;
+    }
+}

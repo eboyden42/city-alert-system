@@ -2,11 +2,12 @@ import RSSparser from "rss-parser"
 import cors from "cors"
 import express from "express"
 import * as cheerio from 'cheerio'
-import { addAlert, getAllAlerts } from "./driver.js"
+import { addAlert, getAllAlerts, signInUser, signUpUser } from "./driver.js"
 
 const app = express()
 const port = 3001
 const parser = new RSSparser()
+app.use(express.json())
 
 // temporary storage for alerts
 let policeAlerts = []
@@ -218,6 +219,26 @@ app.get("/api/allalerts", (req, res) => {
     console.error("Error fetching all alerts:", error)
     res.status(500).json({ error: "Internal Server Error" })
   })
+})
+
+app.post("/api/usersignup", (req, res) => {
+  let email = req.body.email
+  let password = req.body.password
+  signUpUser(email, password)
+    .then(() => {
+      res.json({ message: "User signed up successfully" })
+    })
+    .catch((error) => {
+      res.json({error: error.message})
+    })
+})
+
+app.post("/api/userlogin", (req, res) => {
+  let email = req.body.email
+  let password = req.body.password
+  signInUser(email, password)
+    .then(() => res.json({message: "Logged in"}))
+    .catch(error => res.json({error: error.message}))
 })
 
 const server = app.listen(port, () => {
