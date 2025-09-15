@@ -1,3 +1,4 @@
+import { logOut } from "../../api"
 import "./HomePage.scss"
 
 export default function HomePage() {
@@ -27,6 +28,7 @@ export default function HomePage() {
                 <li>Add user authentication and profile management for setting emails and notification settings.</li>
                 <li>Integrate with Microsoft Teams for team-wide alert distribution.</li>
             </ul>
+            <button onClick={logOut}>Log Out</button>
         </div>
     )
 }

@@ -1,0 +1,14 @@
+.error {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid var(--error-color);
+    border-radius: var(--border-radius);
+    padding: 0px 15px;
+    background-color: #fe909041;
+
+    svg {
+        color: var(--error-color);
+    }
+
+}

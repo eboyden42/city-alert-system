@@ -1,11 +1,12 @@
 import RSSparser from "rss-parser"
 import cors from "cors"
 import express from "express"
+import { addAlert } from "./driver.js"
 import * as cheerio from 'cheerio'
-import { addAlert, getAllAlerts, signInUser, signUpUser } from "./driver.js"
+import { fileURLToPath } from "url"
 
 const app = express()
-const port = 3001
+const port = 3000
 const parser = new RSSparser()
 app.use(express.json())
 
@@ -28,7 +29,7 @@ async function fetchPoliceRSS() {
         title: item.title,
         content: item.contentSnippet,
         link: item.link,
-        type: "default"
+        type: "police"
       }
       policeAlerts.push(alert)
       addAlert(alert)
@@ -47,7 +48,7 @@ async function fetchFireRSS() {
         title: item.title,
         content: item.contentSnippet,
         link: item.link,
-        type: "default"
+        type: "fire"
       }
       fireAlerts.push(alert)
       addAlert(alert)
@@ -66,7 +67,7 @@ async function fetchTrafficRSS() {
         title: item.title,
         content: item.contentSnippet,
         link: item.link,
-        type: "default"
+        type: "traffic"
       }
       trafficAlerts.push(alert)
       addAlert(alert)
@@ -85,7 +86,7 @@ async function fetchUtilitiesRSS() {
         title: item.title,
         content: item.contentSnippet,
         link: item.link,
-        type: "default"
+        type: "utilities"
       }
       utilitiesAlerts.push(alert)
       addAlert(alert)
@@ -110,7 +111,7 @@ async function fetchNWSAlerts() {
             title: feature.properties.headline,
             content: feature.properties.description,
             link: null,
-            type: "default"
+            type: "weather"
           }
           nwsAlerts.push(alert)
           addAlert(alert)
@@ -140,7 +141,7 @@ async function fetchAirNowAQI() {
               title: item.title,
               content: airnowParsed.currentAQI + " - " + airnowParsed.agency,
               link: null,
-              type: "default"
+              type: "air"
             }
             airNowAlerts.push(alert)
             addAlert(alert)
@@ -170,8 +171,6 @@ function parseAirNowContent(content) {
   return parsed
 }
 
-
-
 // Fetch all CivicEngage RSS feeds
 fetchPoliceRSS()
 fetchFireRSS()
@@ -185,8 +184,6 @@ fetchNWSAlerts()
 fetchAirNowAQI()
 
 app.use(cors())
-
-app.use(express.static("dist"))
 
 app.get("/api/fire", (req, res) => {
   res.json(fireAlerts)
@@ -212,34 +209,9 @@ app.get("/api/airnow", (req, res) => {
   res.json(airNowAlerts)
 })
 
-app.get("/api/allalerts", (req, res) => {
-  getAllAlerts().then(alerts => {
-    res.json(alerts)
-  }).catch(error => {
-    console.error("Error fetching all alerts:", error)
-    res.status(500).json({ error: "Internal Server Error" })
-  })
-})
-
-app.post("/api/usersignup", (req, res) => {
-  let email = req.body.email
-  let password = req.body.password
-  signUpUser(email, password)
-    .then(() => {
-      res.json({ message: "User signed up successfully" })
-    })
-    .catch((error) => {
-      res.json({error: error.message})
-    })
-})
-
-app.post("/api/userlogin", (req, res) => {
-  let email = req.body.email
-  let password = req.body.password
-  signInUser(email, password)
-    .then(() => res.json({message: "Logged in"}))
-    .catch(error => res.json({error: error.message}))
-})
+// app.get("*", (req, res) => {
+//   res.send("works");
+// })
 
 const server = app.listen(port, () => {
   console.log(`Server running on port ${port}`)

@@ -1,37 +1,53 @@
 import "./Auth.scss"
 import { useState } from "react"
-import { userSignUp, userLogIn } from "../../api"
+import { userSignUp, userLogIn, getSession } from "../../api"
+import Error from "../../components/Error/Error"
 
 export default function Auth() {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [isLogin, setIsLogin] = useState(true) // true for login, false for register
+    const [showError, setShowError] = useState(false)
+    const [errorText, setErrorText] = useState(null)
 
     function handleSubmit(e) {
         e.preventDefault()
+        setShowError(false)
         console.log("Submitted:", { email, password, isLogin })
+        // check to make sure password meets requirements, diplay error if not
+
+
+
+
         if (isLogin) {
             userLogIn(email, password)
                 .then(data => {
-                    if (data.message) {
-                        console.log(data.message)
+                    if (data.error) {
+                        displayError(data.error.message)
                     } else {
-                        console.log(data.error)
+                        console.log(data.data.session)
+                        console.log(data.data.user)
                     }
                 })
                 .catch(error => console.log(error))
         } else {
             userSignUp(email, password)
                 .then(data => {
-                    if (data.message) {
-                        console.log(data.message)
+                    if (data.error) {
+                        displayError(data.error.message)
                     } else {
-                        console.log(data.error)
+                        console.log(data.session)
+                        console.log(data.user)
                     }
                 })
-                .catch(error => console.error(error.message))
+                .catch(error => console.log(error.message))
         }
+    }
+
+    function displayError(error) {
+        setErrorText(error)
+        setShowError(true)
     }
 
     return (
@@ -66,6 +82,11 @@ export default function Auth() {
                     :
                     <p>Already have an account? <a className="register-link" onClick={() => setIsLogin(true)}>Log in</a>.</p>
                 }
+                {showError ? 
+                    <Error>
+                        {errorText}
+                    </Error>
+                : null}
             </div>
         </div>
     )
