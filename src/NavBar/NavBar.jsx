@@ -1,6 +1,7 @@
 import "./NavBar.scss"
 import { NavLink } from "react-router"
 import { useAuth } from "../pages/Auth/AuthProvider"
+import Dropdown from "../components/Dropdown/index"
 
 export default function NavBar() {
 
@@ -35,9 +36,21 @@ export default function NavBar() {
                 <li>
                     {
                         user ? (
-                            <button>
-                                {user.email}
-                            </button>
+                            <Dropdown>
+                                <Dropdown.Button>
+                                    {user.email}
+                                </Dropdown.Button>
+                                <Dropdown.Content>
+                                    <Dropdown.List>
+                                        <Dropdown.Item onClick={() => console.log("clicked hello")}>
+                                            Hello
+                                        </Dropdown.Item>
+                                        <Dropdown.Item>
+                                            This is a dropwdown
+                                        </Dropdown.Item>
+                                    </Dropdown.List>
+                                </Dropdown.Content>
+                            </Dropdown>
                         ) : (
                         <NavLink to="/auth" activeclassname="active">
                             <button>
