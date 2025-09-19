@@ -1,6 +1,7 @@
 import "./Auth.scss"
 import { useState } from "react"
 import { userSignUp, userLogIn, getSession } from "../../api"
+import { useAuth } from "./AuthProvider"
 import Error from "../../components/Error/Error"
 
 export default function Auth() {
@@ -10,6 +11,8 @@ export default function Auth() {
     const [isLogin, setIsLogin] = useState(true) // true for login, false for register
     const [showError, setShowError] = useState(false)
     const [errorText, setErrorText] = useState(null)
+
+    const auth = useAuth()
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -21,27 +24,11 @@ export default function Auth() {
 
 
         if (isLogin) {
-            userLogIn(email, password)
-                .then(data => {
-                    if (data.error) {
-                        displayError(data.error.message)
-                    } else {
-                        console.log(data.data.session)
-                        console.log(data.data.user)
-                    }
-                })
-                .catch(error => console.log(error))
+            auth.loginAction({email, password})
+                .catch(error => displayError(error.message))
         } else {
-            userSignUp(email, password)
-                .then(data => {
-                    if (data.error) {
-                        displayError(data.error.message)
-                    } else {
-                        console.log(data.session)
-                        console.log(data.user)
-                    }
-                })
-                .catch(error => console.log(error.message))
+            auth.signUpAction({email, password})
+                .catch(error => displayError(error.message))
         }
     }
 

@@ -1,23 +1,9 @@
 import { useState, useEffect } from 'react'
 import AppRoutes from './AppRoutes'
-import { getSession } from './api'
+import { getSession, supabase } from './api'
+import { useAuth } from "./pages/Auth/AuthProvider"
 
 function App() {
-
-  const [session, setSession] = useState(null)
-
-  async function getCurrentSession() {
-    const currentSession = await getSession();
-    setSession(currentSession.data.session)
-  }
-
-  useEffect(() => {
-    getCurrentSession()
-  }, [])
-
-  if (session) {
-    console.log(session)
-  }
 
   return (
     <>

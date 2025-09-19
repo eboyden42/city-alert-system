@@ -11,10 +11,14 @@ import NWSPage from './pages/NWSPage/NWSPage'
 import AirNowPage from './pages/AirNowPage/AirNowPage'
 import AllAlerts from './pages/AllAlerts/AllAlerts'
 import Auth from "./pages/Auth/Auth"
+import PrivateRoute from './pages/Auth/PrivateRoute'
+import Preferences from "./pages/Preferences/Preferences"
+import AuthProvider from './pages/Auth/AuthProvider'
 
 export default function AppRoutes() {
   return (
     <Router>
+      <AuthProvider>
       <Routes>
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/" element={<BaseLayout />}>
@@ -29,8 +33,12 @@ export default function AppRoutes() {
           <Route path="airnow" element={<AirNowPage />} />
           <Route path="allalerts" element={<AllAlerts />} />
           <Route path="auth" element={<Auth />} />
+          <Route element={<PrivateRoute />} >
+            <Route path="preferences" element={<Preferences />} />
+          </Route>
         </Route>
       </Routes>
+      </AuthProvider>
     </Router>
   )
 }

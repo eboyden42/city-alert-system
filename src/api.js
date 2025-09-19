@@ -5,7 +5,7 @@ import { createClient } from "@supabase/supabase-js"
 
 const API_BASE_URL = `${import.meta.env.VITE_API_URL}/api`
 
-const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY)
+export const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY)
 
 async function request(path, options = {}) {
     const res = await fetch(`${API_BASE_URL}${path}`, options)
