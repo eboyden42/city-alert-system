@@ -12,7 +12,6 @@ export default function AuthProvider({ children }) {
 
     async function getCurrentSession() {
         const currentSession = await supabase.auth.getSession()
-        console.log(currentSession)
         if (currentSession.error) {
             throw new Error("Failed to get sesson: ", currentSession.error.message)
         }
@@ -24,7 +23,6 @@ export default function AuthProvider({ children }) {
         
         const {data: authListener} = supabase.auth.onAuthStateChange(
             (_event, session) => {
-                console.log(session)
                 if (session) {
                     setUser(session.user)
                     setToken(session.access_token)

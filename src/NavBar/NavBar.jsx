@@ -1,7 +1,11 @@
 import "./NavBar.scss"
 import { NavLink } from "react-router"
+import { useAuth } from "../pages/Auth/AuthProvider"
 
 export default function NavBar() {
+
+    const { user } = useAuth()
+
     return (
         <nav className="navbar">
             <a href="/" className="navbar-home-link">
@@ -29,12 +33,19 @@ export default function NavBar() {
             </ul>
             <ul className="navbar-links right">
                 <li>
-                    
-                    <NavLink to="/auth" activeclassname="active">
-                        <button>
-                            Login
-                        </button>
-                    </NavLink>
+                    {
+                        user ? (
+                            <button>
+                                {user.email}
+                            </button>
+                        ) : (
+                        <NavLink to="/auth" activeclassname="active">
+                            <button>
+                                Login
+                            </button>
+                        </NavLink>
+                        )
+                    }
                 </li>
             </ul>
         </nav>
