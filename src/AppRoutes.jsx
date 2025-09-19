@@ -14,6 +14,7 @@ import Auth from "./pages/Auth/Auth"
 import PrivateRoute from './pages/Auth/PrivateRoute'
 import Preferences from "./pages/Preferences/Preferences"
 import AuthProvider from './pages/Auth/AuthProvider'
+import Profile from "./pages/Profile/Profile"
 
 export default function AppRoutes() {
   return (
@@ -35,6 +36,7 @@ export default function AppRoutes() {
           <Route path="auth" element={<Auth />} />
           <Route element={<PrivateRoute />} >
             <Route path="preferences" element={<Preferences />} />
+            <Route path="profile" element={<Profile />} />
           </Route>
         </Route>
       </Routes>
