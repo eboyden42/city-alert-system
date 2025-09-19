@@ -56,6 +56,16 @@
 button.dropdown-item {
     background-color: var(--secondary-color);
     color: var(--text-color);
+    width: 100%;
+    text-align: left;
+
+    display: flex;
+    justify-content: space-between;
+
+    svg {
+        color: var(--text-color);
+        margin-left: 16px;
+    }
 
     &:hover {
         background-color: var(--background-color);

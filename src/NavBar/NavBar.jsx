@@ -1,11 +1,15 @@
 import "./NavBar.scss"
-import { NavLink } from "react-router"
+import { NavLink, useNavigate } from "react-router"
 import { useAuth } from "../pages/Auth/AuthProvider"
 import Dropdown from "../components/Dropdown/index"
+import { FiLogOut } from "react-icons/fi"
+import { CgProfile } from "react-icons/cg"
+import { IoSettingsOutline } from "react-icons/io5"
 
 export default function NavBar() {
 
-    const { user } = useAuth()
+    const { user, logoutAction } = useAuth()
+    const navigate = useNavigate()
 
     return (
         <nav className="navbar">
@@ -42,11 +46,17 @@ export default function NavBar() {
                                 </Dropdown.Button>
                                 <Dropdown.Content>
                                     <Dropdown.List>
-                                        <Dropdown.Item onClick={() => console.log("clicked hello")}>
-                                            Hello
+                                        <Dropdown.Item onClick={() => navigate("/preferences")}>
+                                            Preferences
+                                            <IoSettingsOutline />
                                         </Dropdown.Item>
-                                        <Dropdown.Item>
-                                            This is a dropwdown
+                                        <Dropdown.Item onClick={() => navigate("/profile")}>
+                                            Profile
+                                            <CgProfile />
+                                        </Dropdown.Item>
+                                        <Dropdown.Item onClick={logoutAction}>
+                                            Logout
+                                            <FiLogOut />
                                         </Dropdown.Item>
                                     </Dropdown.List>
                                 </Dropdown.Content>

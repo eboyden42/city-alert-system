@@ -2,9 +2,6 @@ import { useAuth } from "../Auth/AuthProvider"
 import "./HomePage.scss"
 
 export default function HomePage() {
-
-    const { logoutAction } = useAuth()
-
     return (
         <div className="home-page">
             <h2>Welcome to the <strong>Charlottesville City Alert System</strong> (CCAS)</h2>
@@ -31,7 +28,6 @@ export default function HomePage() {
                 <li>Add user authentication and profile management for setting emails and notification settings.</li>
                 <li>Integrate with Microsoft Teams for team-wide alert distribution.</li>
             </ul>
-            <button onClick={logoutAction}>Log Out</button>
         </div>
     )
 }
