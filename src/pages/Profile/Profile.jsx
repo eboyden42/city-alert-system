@@ -9,7 +9,7 @@ import Error from "../../components/Error/Error"
 export default function Profile() {
 
     const { user } = useAuth()
-    const { avatarUrl, updateProfile } = useProfile()
+    const { updateProfile } = useProfile()
     const [file, setFile] = useState(null)
     const [showProfileError, setShowProfileError] = useState(false)
     const [profileErrorText, setProfileErrorText] = useState("An error has occured.")
@@ -50,12 +50,19 @@ export default function Profile() {
 
     return (
         <div className="profile-page">
-            <h2>Profile information:</h2>
+            <h2>Edit profile</h2>
+            <hr />
             <div className="profile-left">
+
                 <ProfilePicture src={file ? URL.createObjectURL(file) : null} />
-                <h3>Upload image:</h3>
-                <input type="file" onChange={handleChange} />
-                <button onClick={() => uploadProfile(file)}>Upload profile</button>
+                <div className="upload-container">
+                    <label htmlFor="fileUpload" className="profile-img-upld">
+                        Select File
+                    </label>
+                    <input type="file" onChange={handleChange} id="fileUpload" style={{display: "none"}} />
+                    <button onClick={() => uploadProfile(file)}>Upload</button>
+                </div>
+
                 {
                     showProfileError ? (
                         <Error>

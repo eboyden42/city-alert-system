@@ -1,7 +1,27 @@
 .profile-page {
     .profile-left {
-        .preview-img {
-            max-width: 200px;
+        // border: 1px solid black;
+        max-width: 30vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        margin-top: 100px;
+        margin-bottom: auto;
+
+        .upload-container {
+            display: flex;
+            gap: 12px;
+
+            .profile-img-upld {
+                border: 2px solid var(--primary-color);
+                padding: 5px 10px;
+                border-radius: var(--border-radius);
+                color: var(--primary-color);
+                font-weight: bold;
+                cursor: pointer;
+            }
         }
+
     }
 }
