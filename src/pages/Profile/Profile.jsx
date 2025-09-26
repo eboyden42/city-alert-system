@@ -20,7 +20,7 @@ export default function Profile() {
         if (file == null) return
         const { data, error } = await supabase.storage.from("avatars").upload(`${user.id}/profile`, file, {
             upsert: true,
-            cacheControl: 60,
+            cacheControl: 5,
         })
         if (error) {
             console.error("Error uploading profile picture: ", error.message)

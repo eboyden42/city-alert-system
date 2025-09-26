@@ -1,6 +1,7 @@
 import "./NavBar.scss"
 import { NavLink, useNavigate } from "react-router"
 import { useAuth } from "../pages/Auth/AuthProvider"
+import ProfilePicture from "../components/ProfilePicture/ProfilePicture"
 import Dropdown from "../components/Dropdown/index"
 import { FiLogOut } from "react-icons/fi"
 import { CgProfile } from "react-icons/cg"
@@ -43,6 +44,7 @@ export default function NavBar() {
                             <Dropdown>
                                 <Dropdown.Button>
                                     {user.email}
+                                    <ProfilePicture width={25} height={25} />
                                 </Dropdown.Button>
                                 <Dropdown.Content>
                                     <Dropdown.List>

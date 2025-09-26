@@ -9,11 +9,12 @@
     color: var(--secondary-color);
     background-color: var(--primary-color);
     display: flex;
+    gap: 12px;
     align-items: center;
 }
 
 .dropdown-icon {
-    margin-left: 8px;
+    
 }
 
 .rotate-closed {

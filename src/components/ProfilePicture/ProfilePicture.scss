@@ -1,6 +1,5 @@
-.profile-container {
-    img.profile-img, svg {
-        border-radius: 50%;
-        border: 5px solid var(--primary-color);
-    }
+img.profile-img, svg.profile-img {
+    border-radius: 50%;
+    border: 5px solid var(--primary-color);
+    background-color: var(--background-color);
 }

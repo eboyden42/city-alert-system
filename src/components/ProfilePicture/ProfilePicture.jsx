@@ -14,7 +14,6 @@ export default function ProfilePicture({ src, width=200, height=200, ...rest }) 
 
     return (
         <>
-        <div className="profile-container" {...rest}>
             {
                 src ? (
                     <img className="profile-img" src={src} alt="Profile picture" style={style} />
@@ -22,11 +21,10 @@ export default function ProfilePicture({ src, width=200, height=200, ...rest }) 
                     (!loading && avatarUrl) ? (
                         <img className="profile-img" src={avatarUrl} alt="Profile picture" style={style} />
                     ) : (
-                        <FaUserCircle style={style} />
+                        <FaUserCircle className="profile-img" style={style} />
                     )
                 )
             }
-        </div>
         </>
     )
 }
