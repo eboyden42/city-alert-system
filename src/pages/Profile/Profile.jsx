@@ -6,6 +6,7 @@ import { useProfile } from "./ProfileProvider"
 import ProfilePicture from "../../components/ProfilePicture/ProfilePicture"
 import Info from "../../components/Info/Info"
 import Error from "../../components/Error/Error"
+import { FaArrowCircleRight } from "react-icons/fa"
 
 export default function Profile() {
 
@@ -16,6 +17,15 @@ export default function Profile() {
     const [profileErrorText, setProfileErrorText] = useState("An error has occured.")
     const [showProfileInfo, setShowProfileInfo] = useState(false)
     const [profileInfoText, setProfileInfoText] = useState(false)
+
+    // form state
+    const displayName = user?.display_name ? user.displayName : ""
+    const displaySplit = displayName != "" ? displayName.split(" ") : ["", ""]
+
+    const [firstName, setFirstName] = useState(displaySplit[0])
+    const [lastName, setLastName] = useState(displayName[1])
+    const [email, setEmail] = useState(user?.email)
+    const [phone, setPhone] = useState(user?.phone)
 
     async function uploadProfile(file) {
         console.log("uploading: ", file)
@@ -34,7 +44,6 @@ export default function Profile() {
         }
 
         updateProfile()
-        displayProfileInfo("Changes may take a few moments to appear.")
     }
 
     function handleChange(e) {
@@ -59,45 +68,110 @@ export default function Profile() {
         setShowProfileInfo(true)
     }
 
+    function handleSubmit(e) {
+        // handle submission here
+
+    }
+
     return (
         <div className="profile-page">
             <h2>Edit profile</h2>
             <hr />
-            <div className="profile-left">
-
-                <ProfilePicture src={file ? URL.createObjectURL(file) : null} />
-                <div className="upload-container">
-                    <label 
-                        htmlFor="fileUpload" 
-                        className="profile-img-upld"
-                    >
-                        Select File
-                    </label>
-                    <input 
-                        type="file" 
-                        onChange={handleChange} 
-                        id="fileUpload" 
-                        style={{display: "none"}} 
-                    />
-                    <button onClick={() => uploadProfile(file)}>Upload</button>
+            <div className="profile-container">
+                <div className="profile-left">
+                    <ProfilePicture src={file ? URL.createObjectURL(file) : null} />
+                    <div className="upload-container">
+                        <label 
+                            htmlFor="fileUpload" 
+                            className="profile-img-upld"
+                        >
+                            Select File
+                        </label>
+                        <input 
+                            type="file" 
+                            onChange={handleChange} 
+                            id="fileUpload" 
+                            style={{display: "none"}} 
+                        />
+                        <button onClick={() => uploadProfile(file)}>Upload</button>
+                    </div>
+                    {
+                        showProfileInfo ? (
+                            <Info>
+                                {profileInfoText}
+                            </Info>
+                        ) : null
+                    }
+                    {
+                        showProfileError ? (
+                            <Error>
+                                {profileErrorText}
+                            </Error>
+                        ) : null
+                    }
                 </div>
-                {
-                    showProfileInfo ? (
-                        <Info>
-                            {profileInfoText}
-                        </Info>
-                    ) : null
-                }
-                {
-                    showProfileError ? (
-                        <Error>
-                            {profileErrorText}
-                        </Error>
-                    ) : null
-                }
-            </div>
-            <div className="profile-right">
-
+                <div className="profile-right">
+                    <form onSubmit={handleSubmit}>
+                        <div className="row-input">
+                            <div className="field">
+                                <label htmlFor="firstName">
+                                    First name
+                                </label>
+                                <input 
+                                    className="profile name" 
+                                    type="text" 
+                                    id="firstName" 
+                                    onChange={(e) => setFirstName(e.target.value)}
+                                    placeholder={firstName}
+                                />
+                            </div>
+                             <div className="field">
+                                <label htmlFor="lastName">
+                                    Last name
+                                </label>
+                                <input 
+                                    className="profile name" 
+                                    type="text" 
+                                    id="lastName"
+                                    onChange={(e) => setLastName(e.target.value)}
+                                    placeholder={lastName}
+                                />
+                            </div>
+                        </div>
+                        <div className="row-input">
+                            <div className="field">
+                                <label htmlFor="email">
+                                    Email
+                                </label>
+                                <input 
+                                    className="profile" 
+                                    type="text" 
+                                    id="email"
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    placeholder={email}
+                                />
+                            </div>
+                        </div>
+                        <div className="row-input">
+                            <div className="field">
+                                <label htmlFor="phone">
+                                    Phone
+                                </label>
+                                <input 
+                                    className="profile" 
+                                    type="text" 
+                                    id="phone"
+                                    onChange={(e) => setPhone(e.target.value)}
+                                    placeholder={phone}
+                                />
+                            </div>
+                        </div>
+                        <button type="submit" className="save-btn">
+                            Save changes
+                            <FaArrowCircleRight />
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     )
