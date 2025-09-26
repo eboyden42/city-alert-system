@@ -13,14 +13,34 @@ export default function ProfileProvider({ children }) {
     async function updateProfile() {
         setIsLoadingProfile(true)
         if (isLoading || !user) return
-        const { data, error } = await supabase.storage.from("avatars").getPublicUrl(`${user.id}/profile`)
-        if (error) {
-            console.log(error.message)
-            return
+        const { data } = await supabase.storage.from("avatars").getPublicUrl(`${user.id}/profile`)
+        const exists = await urlExists(data.publicUrl)
+        if (exists) {
+            setAvatarUrl(data.publicUrl)
+        } else {
+            setAvatarUrl(null)
         }
-        setAvatarUrl(data.publicUrl)
         setIsLoadingProfile(false)
     }
+
+    async function urlExists(objectUrl) {
+        try {
+            const res = await fetch(objectUrl, {method: "Head"})
+
+            if (res.status == 200) {
+                return true
+            } else if (res.status == 400) {
+                return false
+            } else {
+                console.error("Error checking existence of profile picture")
+                console.log(res)
+                return false
+            }
+        } catch {
+            console.error("Network rror checking existence of profile picture")
+            return false
+        }
+    } 
 
     useEffect(() => {
         updateProfile()

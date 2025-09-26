@@ -22,7 +22,7 @@ export default function ProfilePicture({ src, width=200, height=200, ...rest }) 
                     (!loading && avatarUrl) ? (
                         <img className="profile-img" src={avatarUrl} alt="Profile picture" style={style} />
                     ) : (
-                        <FaUserCircle />
+                        <FaUserCircle style={style} />
                     )
                 )
             }

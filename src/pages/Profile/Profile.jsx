@@ -18,7 +18,10 @@ export default function Profile() {
         console.log("uploading: ", file)
         setShowProfileError(false)
         if (file == null) return
-        const { data, error } = await supabase.storage.from("avatars").upload(`${user.id}/profile`, file)
+        const { data, error } = await supabase.storage.from("avatars").upload(`${user.id}/profile`, file, {
+            upsert: true,
+            cacheControl: 60,
+        })
         if (error) {
             console.error("Error uploading profile picture: ", error.message)
             displayProfileError(error.message)
