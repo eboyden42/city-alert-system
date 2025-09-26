@@ -13,7 +13,7 @@ export default function ProfileProvider({ children }) {
     async function updateProfile() {
         setIsLoadingProfile(true)
         if (isLoading || !user) return
-        const { data } = await supabase.storage.from("avatars").getPublicUrl(`${user.id}/profile`)
+        const { data } = supabase.storage.from("avatars").getPublicUrl(`${user.id}/profile`)
         const exists = await urlExists(data.publicUrl)
         if (exists) {
             const bust = Date.now().toString()

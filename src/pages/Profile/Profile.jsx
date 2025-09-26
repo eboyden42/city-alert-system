@@ -10,6 +10,7 @@ import { FaArrowCircleRight } from "react-icons/fa"
 
 export default function Profile() {
 
+    // profile picture state
     const { user } = useAuth()
     const { updateProfile } = useProfile()
     const [file, setFile] = useState(null)
@@ -26,6 +27,9 @@ export default function Profile() {
     const [lastName, setLastName] = useState(displayName[1])
     const [email, setEmail] = useState(user?.email)
     const [phone, setPhone] = useState(user?.phone)
+
+    const [showFormError, setShowFormError] = useState(false)
+    const [formErrorText, setFormErrorText] = useState("There was an error submitting the form.")
 
     async function uploadProfile(file) {
         console.log("uploading: ", file)
@@ -68,9 +72,26 @@ export default function Profile() {
         setShowProfileInfo(true)
     }
 
-    function handleSubmit(e) {
-        // handle submission here
+    function displayFormError(message) {
+        setFormErrorText(message)
+        setShowFormError(message)
+    }
 
+    async function handleSubmit(e) {
+        e.preventDefault()
+        setShowFormError(false)
+        const { data, error } = await supabase.auth.updateUser({
+            display_name: `${firstName} ${lastName}`,
+            email: `${email}`,
+            phone: `${phone}`
+        })
+
+        if (error) {
+            console.log(error)
+            displayFormError(error.message)
+        } else {
+            console.log(data)
+        }
     }
 
     return (
@@ -170,6 +191,13 @@ export default function Profile() {
                             Save changes
                             <FaArrowCircleRight />
                         </button>
+                        {
+                            showFormError ? (
+                                <Error>
+                                    {formErrorText}
+                                </Error>
+                            ) : null
+                        }
                     </form>
                 </div>
             </div>
