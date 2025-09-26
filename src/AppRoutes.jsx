@@ -15,11 +15,13 @@ import PrivateRoute from './pages/Auth/PrivateRoute'
 import Preferences from "./pages/Preferences/Preferences"
 import AuthProvider from './pages/Auth/AuthProvider'
 import Profile from "./pages/Profile/Profile"
+import ProfileProvider from './pages/Profile/ProfileProvider'
 
 export default function AppRoutes() {
   return (
     <Router>
       <AuthProvider>
+      <ProfileProvider>
       <Routes>
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/" element={<BaseLayout />}>
@@ -40,6 +42,7 @@ export default function AppRoutes() {
           </Route>
         </Route>
       </Routes>
+      </ProfileProvider>
       </AuthProvider>
     </Router>
   )

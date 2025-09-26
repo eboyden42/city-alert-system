@@ -2,29 +2,31 @@ import "./Profile.scss"
 import { useState } from "react"
 import { supabase } from "../../api"
 import { useAuth } from "../Auth/AuthProvider"
+import { useProfile } from "./ProfileProvider"
+import ProfilePicture from "../../components/ProfilePicture/ProfilePicture"
 import Error from "../../components/Error/Error"
 
 export default function Profile() {
 
     const { user } = useAuth()
+    const { avatarUrl, updateProfile } = useProfile()
     const [file, setFile] = useState(null)
     const [showProfileError, setShowProfileError] = useState(false)
     const [profileErrorText, setProfileErrorText] = useState("An error has occured.")
-
-    console.log(file)
 
     async function uploadProfile(file) {
         console.log("uploading: ", file)
         setShowProfileError(false)
         if (file == null) return
-        const { data, error } = await supabase.storage.from("avatars").upload(`${user.id}/profile.jpg`, file)
+        const { data, error } = await supabase.storage.from("avatars").upload(`${user.id}/profile`, file)
         if (error) {
             console.error("Error uploading profile picture: ", error.message)
             displayProfileError(error.message)
         } else {
             console.log("Successful upload")
-            console.log(data)
         }
+
+        updateProfile()
     }
 
     function handleChange(e) {
@@ -47,9 +49,9 @@ export default function Profile() {
         <div className="profile-page">
             <h2>Profile information:</h2>
             <div className="profile-left">
+                <ProfilePicture src={file ? URL.createObjectURL(file) : null} />
                 <h3>Upload image:</h3>
                 <input type="file" onChange={handleChange} />
-                {file && <img src={URL.createObjectURL(file)} className="preview-img" alt="Uploaded preview" />}
                 <button onClick={() => uploadProfile(file)}>Upload profile</button>
                 {
                     showProfileError ? (
