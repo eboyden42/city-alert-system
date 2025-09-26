@@ -1,0 +1,14 @@
+.info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    padding: 0px 15px;
+    background-color: #ffffff6c;
+
+    svg {
+        color: var(--primary-color);
+    }
+
+}

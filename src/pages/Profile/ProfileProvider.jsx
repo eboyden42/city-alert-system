@@ -16,7 +16,8 @@ export default function ProfileProvider({ children }) {
         const { data } = await supabase.storage.from("avatars").getPublicUrl(`${user.id}/profile`)
         const exists = await urlExists(data.publicUrl)
         if (exists) {
-            setAvatarUrl(data.publicUrl)
+            const bust = Date.now().toString()
+            setAvatarUrl(`${data.publicUrl}?cd=${bust}`)
         } else {
             setAvatarUrl(null)
         }
