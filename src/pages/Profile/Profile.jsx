@@ -7,7 +7,7 @@ import ProfilePicture from "../../components/ProfilePicture/ProfilePicture"
 import Info from "../../components/Info/Info"
 import Error from "../../components/Error/Error"
 import { FaArrowCircleRight } from "react-icons/fa"
-import { WiDayCloudy } from "react-icons/wi"
+import SMSOTP from "../../components/SMSOTP/SMSOTP"
 
 export default function Profile() {
 
@@ -43,6 +43,9 @@ export default function Profile() {
     const [emailErrorText, setEmailErrorText] = useState("There was an error with updating your email.")
     const [showPhoneError, setShowPhoneError] = useState(false)
     const [phoneErrorText, setPhoneErrorText] = useState("There was an error with updating your phone.")
+
+    // modal state
+    const [showModal, setShowModal] = useState(false)
 
     async function uploadProfile(file) {
         console.log("uploading: ", file)
@@ -149,19 +152,21 @@ export default function Profile() {
         // handle phone change
         setPhone(prev => prev.trim())
         if (lastPhone !== phone) {
-            console.log("Changing phone...")
-            const { data, error } = await supabase.auth.updateUser({
-                phone: phone
-            })
-            if (error) {
-                console.error(error)
-                displayPhoneError(error.message)
-            } else {
-                console.log("Success: ", data)
-            }
+            displayPhoneError("Adding phone numbers is not yet supported.")
+            // console.log("Changing phone...")
+            // const { data, error } = await supabase.auth.updateUser({
+            //     phone: phone
+            // })
+            // setShowModal(true)
+            // if (error) {
+            //     console.error(error)
+            //     displayPhoneError(error.message)
+            // } else {
+            //     console.log("Success: ", data)
+            // }
         }
     }
-    
+
     const formInfoComponents = formInfoList.map((message, index) => <Info key={index}>{message}</Info>)
 
     return (
@@ -296,6 +301,11 @@ export default function Profile() {
                     </form>
                 </div>
             </div>
+            {
+                showModal ? (
+                    <SMSOTP phone={phone} closeModal={() => setShowModal(false)} />
+                ) : null
+            }
         </div>
     )
 }

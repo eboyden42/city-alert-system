@@ -71,3 +71,13 @@ strong {
   margin: 1em 0;
   color: var(--text-color);
 }
+
+label {
+  color: var(--primary-color);
+  font-size: large;
+}
+
+span {
+  color: var(--primary-color);
+  font-weight: bold;
+}

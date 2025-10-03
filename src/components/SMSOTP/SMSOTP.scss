@@ -1,0 +1,62 @@
+
+.darken-bg {
+    background-color: rgba(0, 0, 0, 0.2);
+    width: 100vw;
+    height: 101vh;
+    z-index: 0;
+    top: 0%;
+    left: 0%;
+    position: absolute;
+
+    .otp-modal {
+        width: 370px;
+        height: 250px;
+        background-color: var(--background-color);
+        border-radius: var(--border-radius);
+        padding: 18px 18px 0px 25px;
+        
+        .top-line {
+            display: flex;
+            justify-content: flex-end;
+
+            #exit-btn {
+                padding: 0 5px;
+                background: none;
+                height: 25px;
+                width: 25px;
+    
+                svg {
+                    padding-top: 2px;
+                    color: var(--error-color);
+                }
+            }
+        }
+    
+        form {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            gap: 5px;
+
+            input.otp {
+                padding: 0.5rem;
+                font-size: 1.5rem;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                width: 100px;
+                appearance: none;
+            }
+
+            button.verify {
+                width: 80px;
+            }
+        }
+    }
+}
+
+.centered {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
