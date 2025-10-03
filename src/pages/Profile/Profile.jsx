@@ -7,6 +7,7 @@ import ProfilePicture from "../../components/ProfilePicture/ProfilePicture"
 import Info from "../../components/Info/Info"
 import Error from "../../components/Error/Error"
 import { FaArrowCircleRight } from "react-icons/fa"
+import { WiDayCloudy } from "react-icons/wi"
 
 export default function Profile() {
 
@@ -14,22 +15,34 @@ export default function Profile() {
     const { user } = useAuth()
     const { updateProfile } = useProfile()
     const [file, setFile] = useState(null)
+
+    // profile picture popups
     const [showProfileError, setShowProfileError] = useState(false)
     const [profileErrorText, setProfileErrorText] = useState("An error has occured.")
     const [showProfileInfo, setShowProfileInfo] = useState(false)
     const [profileInfoText, setProfileInfoText] = useState(false)
 
     // form state
-    const displayName = user?.display_name ? user.displayName : ""
+    const displayName = user?.user_metadata.display_name ? user.user_metadata.display_name : ""
     const displaySplit = displayName != "" ? displayName.split(" ") : ["", ""]
+    const lastEmail = user?.email
+    const lastPhone = user?.phone
 
     const [firstName, setFirstName] = useState(displaySplit[0])
-    const [lastName, setLastName] = useState(displayName[1])
+    const [lastName, setLastName] = useState(displaySplit[1])
     const [email, setEmail] = useState(user?.email)
     const [phone, setPhone] = useState(user?.phone)
 
-    const [showFormError, setShowFormError] = useState(false)
-    const [formErrorText, setFormErrorText] = useState("There was an error submitting the form.")
+    // profile fields popups
+    const [showFormInfo, setShowFormInfo] = useState(false)
+    const [formInfoList, setFormInfoList] = useState([])
+
+    const [showNameError, setShowNameError] = useState(false)
+    const [nameErrorText, setNameErrorText] = useState("There was an error with updating your name.")
+    const [showEmailError, setShowEmailError] = useState(false)
+    const [emailErrorText, setEmailErrorText] = useState("There was an error with updating your email.")
+    const [showPhoneError, setShowPhoneError] = useState(false)
+    const [phoneErrorText, setPhoneErrorText] = useState("There was an error with updating your phone.")
 
     async function uploadProfile(file) {
         console.log("uploading: ", file)
@@ -72,27 +85,84 @@ export default function Profile() {
         setShowProfileInfo(true)
     }
 
-    function displayFormError(message) {
-        setFormErrorText(message)
-        setShowFormError(message)
+    function displayFormInfo(message) {
+        setFormInfoList(prev => [...prev, message])
+        setShowFormInfo(true)
+    }
+
+    function displayNameError(message) {
+        setNameErrorText(message)
+        setShowNameError(true)
+    }
+
+    function displayEmailError(message) {
+        setEmailErrorText(message)
+        setShowEmailError(true)
+    }
+
+    function displayPhoneError(message) {
+        setPhoneErrorText(message)
+        setShowPhoneError(true)
     }
 
     async function handleSubmit(e) {
         e.preventDefault()
-        setShowFormError(false)
-        const { data, error } = await supabase.auth.updateUser({
-            display_name: `${firstName} ${lastName}`,
-            email: `${email}`,
-            phone: `${phone}`
-        })
+        setShowFormInfo(false)
+        setFormInfoList([])
+        setShowEmailError(false)
+        setShowNameError(false)
+        setShowPhoneError(false)
 
-        if (error) {
-            console.log(error)
-            displayFormError(error.message)
-        } else {
-            console.log(data)
+        // handle name changing
+        const submittedName = `${firstName.trim()} ${lastName.trim()}`
+        if (displayName !== submittedName && submittedName !== " ") { // check to see if name has changed
+            console.log("Changing name...")
+            const { data, error } = await supabase.auth.updateUser({
+                data: {
+                    display_name: `${firstName} ${lastName}`,
+                }
+            })
+            if (error) {
+                console.error(error)
+                displayNameError(error.message)
+            } else {
+                console.log("Updated name successfully: ", data)
+            }
+        }
+
+        // handle email changing
+        setEmail(prev => prev.trim())
+        if (lastEmail !== email && email !== "") {
+            console.log("Changing email...")
+            const { data, error } = await supabase.auth.updateUser({
+                email: email
+            })
+            if (error) {
+                console.error(error)
+                displayEmailError(error.message)
+            } else {
+                console.log("Sent confirmation email: ", data)
+                displayFormInfo(`A confirmation email has been sent to both ${lastEmail} and ${email}. Click either link to confirm and save your email update.`)
+            }
+        }
+
+        // handle phone change
+        setPhone(prev => prev.trim())
+        if (lastPhone !== phone) {
+            console.log("Changing phone...")
+            const { data, error } = await supabase.auth.updateUser({
+                phone: phone
+            })
+            if (error) {
+                console.error(error)
+                displayPhoneError(error.message)
+            } else {
+                console.log("Success: ", data)
+            }
         }
     }
+    
+    const formInfoComponents = formInfoList.map((message, index) => <Info key={index}>{message}</Info>)
 
     return (
         <div className="profile-page">
@@ -159,6 +229,15 @@ export default function Profile() {
                                 />
                             </div>
                         </div>
+                        {showNameError ? (
+                        <div className="row-input">
+                            <div className="field">
+                                <Error>
+                                    {nameErrorText}
+                                </Error>
+                            </div>
+                        </div>
+                        ) : null}
                         <div className="row-input">
                             <div className="field">
                                 <label htmlFor="email">
@@ -173,6 +252,15 @@ export default function Profile() {
                                 />
                             </div>
                         </div>
+                        {showEmailError ? (
+                        <div className="row-input">
+                            <div className="field">
+                                <Error>
+                                    {emailErrorText}
+                                </Error>
+                            </div>
+                        </div>
+                        ) : null}
                         <div className="row-input">
                             <div className="field">
                                 <label htmlFor="phone">
@@ -187,15 +275,22 @@ export default function Profile() {
                                 />
                             </div>
                         </div>
+                        {showPhoneError ? (
+                        <div className="row-input">
+                            <div className="field">
+                                <Error>
+                                    {phoneErrorText}
+                                </Error>
+                            </div>
+                        </div>
+                        ) : null}
                         <button type="submit" className="save-btn">
                             Save changes
                             <FaArrowCircleRight />
                         </button>
                         {
-                            showFormError ? (
-                                <Error>
-                                    {formErrorText}
-                                </Error>
+                            showFormInfo ? (
+                                formInfoComponents
                             ) : null
                         }
                     </form>

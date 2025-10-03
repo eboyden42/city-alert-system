@@ -43,7 +43,10 @@ export default function NavBar() {
                         user ? (
                             <Dropdown>
                                 <Dropdown.Button>
-                                    {user.email}
+                                    {
+                                        user.user_metadata.display_name ? user.user_metadata.display_name :
+                                        user.email
+                                    }
                                     <ProfilePicture width={25} height={25} />
                                 </Dropdown.Button>
                                 <Dropdown.Content>

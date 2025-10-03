@@ -6,9 +6,12 @@
     border-radius: var(--border-radius);
     padding: 0px 15px;
     background-color: #fe909041;
+    width: inherit;
 
     svg {
         color: var(--error-color);
+        width: 16px;
+        height: 16px;
     }
 
 }
