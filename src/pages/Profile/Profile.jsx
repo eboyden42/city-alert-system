@@ -152,18 +152,18 @@ export default function Profile() {
         // handle phone change
         setPhone(prev => prev.trim())
         if (lastPhone !== phone) {
-            displayPhoneError("Adding phone numbers is not yet supported.")
-            // console.log("Changing phone...")
-            // const { data, error } = await supabase.auth.updateUser({
-            //     phone: phone
-            // })
-            // setShowModal(true)
-            // if (error) {
-            //     console.error(error)
-            //     displayPhoneError(error.message)
-            // } else {
-            //     console.log("Success: ", data)
-            // }
+            // displayPhoneError("Adding phone numbers is not yet supported.")
+            console.log("Changing phone...")
+            const { data, error } = await supabase.auth.updateUser({
+                phone: phone
+            })
+            setShowModal(true)
+            if (error) {
+                console.error(error)
+                displayPhoneError(error.message)
+            } else {
+                console.log("Success: ", data)
+            }
         }
     }
 

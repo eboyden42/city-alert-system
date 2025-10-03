@@ -7,9 +7,9 @@ export default function NWSPage() {
     const [nwsAlerts, setNwsAlerts] = useState([])
 
     useEffect(() => {
-        fetchNWSAlerts()
-            .then(data => setNwsAlerts(data))
-            .catch(error => console.error("Error fetching alerts:", error))
+        // fetchNWSAlerts()
+        //     .then(data => setNwsAlerts(data))
+        //     .catch(error => console.error("Error fetching alerts:", error))
     }, [])
 
     return (
