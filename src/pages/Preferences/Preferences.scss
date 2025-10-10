@@ -1,0 +1,16 @@
+.teams-section {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    gap: 12px;
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    padding: 0px 15px;
+    background-color: #ffffff6c;
+    margin-top: 10px;
+
+    svg {
+        color: var(--primary-color);
+    }
+
+}

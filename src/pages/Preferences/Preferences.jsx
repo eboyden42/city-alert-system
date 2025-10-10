@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react"
 import { useAuth } from "../Auth/AuthProvider"
 import Error from "../../components/Error/Error"
 import Info from "../../components/Info/Info"
+import "./Preferences.scss"
 
 export default function Preferences() {
 
@@ -142,8 +143,32 @@ export default function Preferences() {
                 <Info style={{maxWidth: 300, marginBottom: 10}}>{info}</Info>
             ) : null
         }
-        <button type="submit" >Submit</button>
+        <button type="submit" >
+            Update preferences
+
+        </button>
     </form>
+    <div className="teams-section">
+        <div>
+        <h2>Teams Integration</h2>
+        <hr />
+        <h4>Webhook URLs</h4>
+        <p>
+            To integrate your alerts into Microsoft Teams you'll need to provide a <span>Webhook URL</span>. This URL 
+            is a unique identifier for your Teams Channel, and it allows CCAS to send cards directly to Teams. 
+        </p>
+        <h4>Creating a Webhook URL</h4>
+        <p>
+            To create a webhook for your channel go
+            the channel you want to add, and click the three dots in the top right corner. Then click through <span>Workflows 
+            &gt; More Workflows</span> and select <span>Post to a channel when a Webhook request is received</span>. Enter any name
+            you like, and then select your desired team and channel. You should then see <span>Workflow added successfully!</span>, along with
+            a URL. Copy that url and paste it below. Now your alerts will be posted directly to your channel in Microsoft Teams!
+        </p>
+        </div>
+        <h3>Current Integrations</h3>
+        <hr />
+    </div>
     </>
     
 }
