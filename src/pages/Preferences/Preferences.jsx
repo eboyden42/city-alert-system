@@ -1,13 +1,34 @@
 import { supabase } from "../../api"
 import { useEffect, useState, useRef } from "react"
 import { useAuth } from "../Auth/AuthProvider"
+import Error from "../../components/Error/Error"
+import Info from "../../components/Info/Info"
 
 export default function Preferences() {
 
+    // user data
     const { user, isLoading } = useAuth()
+
+    // preferences state
     const [preferences, setPreferences] = useState([])
     const [updateCheckbox, setUpdateCheckbox] = useState(false)
     const initialPreferencesRef = useRef([])
+
+    // info/error state
+    const [showError, setShowError] = useState(false)
+    const [showInfo, setShowInfo] = useState(false)
+    const [error, setError] = useState("There has been an error.")
+    const [info, setInfo] = useState("There is no more information at this time.")
+
+    function displayError(message) {
+        setError(message)
+        setShowError(true)
+    }
+
+    function displayInfo(message) {
+        setInfo(message)
+        setShowInfo(true)
+    }
 
     async function getPreferenceTypes() {
         const {data, error} = await supabase.rpc('gettypesforuser', {'user_uuid': user.id})
@@ -34,6 +55,8 @@ export default function Preferences() {
 
     async function handleSubmit(e) {
         e.preventDefault()
+        setShowError(false)
+        setShowInfo(false)
         const initialPreferences = initialPreferencesRef.current
         // compare initialPreferences to preferences
         let updates = []
@@ -51,17 +74,19 @@ export default function Preferences() {
         let isError = false
 
         // send any differing updates/deletes to supabase
-        updates.forEach(async update => {
+        for (const update of updates) {
             const { error }  = await supabase
                 .from('user_alert_types')
                 .insert({user_id: user.id, alert_type_id: update.id})
             if (error) {
                 isError = true
                 console.error(error.message)
+                displayError(error.message)
             }
-        })
+            console.log("updated")
+        }
 
-        deletes.forEach(async del => {
+        for (const del of deletes) {
             const res = await supabase
                 .from('user_alert_types')
                 .delete()
@@ -70,11 +95,15 @@ export default function Preferences() {
             if (res.status !== 204) {
                 isError = true
                 console.log("Error: ", res)
+                displayError(error.message)
             }
-        })
+            console.log("deleted")
+        }
 
         if (!isError) {
-            console.log("Success!")
+            console.log("finished")
+            displayInfo("Preferences updated successfully.")
+            getPreferenceTypes()
         }
     }
 
@@ -103,6 +132,16 @@ export default function Preferences() {
         <ul>
             {preferencesList}
         </ul>
+        {
+            showError ? (
+                <Error style={{maxWidth: 300, marginBottom: 10}}>{error}</Error>
+            ) : null
+        }
+        {
+            showInfo ? (
+                <Info style={{maxWidth: 300, marginBottom: 10}}>{info}</Info>
+            ) : null
+        }
         <button type="submit" >Submit</button>
     </form>
     </>
