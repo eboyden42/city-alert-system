@@ -4,6 +4,8 @@ import { useAuth } from "../Auth/AuthProvider"
 import Error from "../../components/Error/Error"
 import Info from "../../components/Info/Info"
 import "./Preferences.scss"
+import { FaPlus } from "react-icons/fa"
+import Webhook from "../../components/Webhook/Webhook"
 
 export default function Preferences() {
 
@@ -121,6 +123,13 @@ export default function Preferences() {
         </li>
     )
 
+    const testWebhooks = ["https://prod-51.usgovtexas.logic.azure.us:443/workflows/1b818caa5b59451489f17a0ba5300900/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=67tvt_AOFIWdRuYErXKSCw0MMg15-L0z-QDjCLj6GCg", "https://prod-51.usgovtexas.logic.azure.us:443/workflows/1b818caa5b59451489f17a0ba5300900/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=67tvt_AOFIWdRuYErXKSCw0MMg15-L0z-QDjCLj6GCg"]
+    // testWebhooks = []
+
+    const webHookList = testWebhooks.map((webhook, index) => {
+        return <Webhook id={index} webhook={webhook} />
+    })
+
     return <>
     <h2>
         Preferences
@@ -158,6 +167,7 @@ export default function Preferences() {
             is a unique identifier for your Teams Channel, and it allows CCAS to send cards directly to Teams. 
         </p>
         <h4>Creating a Webhook URL</h4>
+        {/* make sure to add: how to add workflows app to teams */}
         <p>
             To create a webhook for your channel go
             the channel you want to add, and click the three dots in the top right corner. Then click through <span>Workflows 
@@ -168,6 +178,15 @@ export default function Preferences() {
         </div>
         <h3>Current Integrations</h3>
         <hr />
+        <div className="webhooks">
+            <button className="add-webhook-btn">
+                <FaPlus />
+                Add channel
+            </button>
+            <ul>
+                {webHookList}
+            </ul>
+        </div>
     </div>
     </>
     

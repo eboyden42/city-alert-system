@@ -9,8 +9,19 @@
     background-color: #ffffff6c;
     margin-top: 10px;
 
-    svg {
-        color: var(--primary-color);
+    .webhooks {
+        .add-webhook-btn {
+            padding: 3px 6px;
+            font-size: small;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+
+            svg {
+                color: var(--secondary-color);
+            }
+        }
     }
 
 }
