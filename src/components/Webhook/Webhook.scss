@@ -1,0 +1,12 @@
+li.previous-webhook {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    margin-bottom: 5px;
+
+    button.delete-btn {
+        background-color: var(--background-slight-blue);
+        color: var(--error-color);
+        padding: 0;
+    }
+}

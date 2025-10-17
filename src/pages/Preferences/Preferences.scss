@@ -6,10 +6,12 @@
     border: 1px solid var(--primary-color);
     border-radius: var(--border-radius);
     padding: 0px 15px;
-    background-color: #ffffff6c;
+    background-color: var(--background-slight-blue);
     margin-top: 10px;
 
     .webhooks {
+        padding: 20px;
+
         .add-webhook-btn {
             padding: 3px 6px;
             font-size: small;
@@ -17,9 +19,12 @@
             align-items: center;
             justify-content: center;
             gap: 5px;
+            margin-left: 38px;
 
             svg {
                 color: var(--secondary-color);
+                height: 10px;
+                width: 10px;
             }
         }
     }

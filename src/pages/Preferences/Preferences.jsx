@@ -43,6 +43,11 @@ export default function Preferences() {
         }
     }
 
+    async function getWebhooks() {
+        // call supabase to get updated webhooks and store them in state
+        console.log("getting updated webhooks")
+    }
+
     function handleCheck(e) {
         const target = e.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -123,11 +128,27 @@ export default function Preferences() {
         </li>
     )
 
-    const testWebhooks = ["https://prod-51.usgovtexas.logic.azure.us:443/workflows/1b818caa5b59451489f17a0ba5300900/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=67tvt_AOFIWdRuYErXKSCw0MMg15-L0z-QDjCLj6GCg", "https://prod-51.usgovtexas.logic.azure.us:443/workflows/1b818caa5b59451489f17a0ba5300900/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=67tvt_AOFIWdRuYErXKSCw0MMg15-L0z-QDjCLj6GCg"]
+    const testWebhooks = [
+        {
+            webhook: "https://prod-51.usgovtexas.logic.azure.us:443/workflows/1b818caa5b59451489f17a0ba5300900/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=67tvt_AOFIWdRuYErXKSCw0MMg15-L0z-QDjCLj6GCg", 
+            name: "channel one",
+            id: "15"
+        }, 
+        {
+            webhook: "https://prod-51.usgovtexas.logic.azure.us:443/workflows/1b818caa5b59451489f17a0ba5300900/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=67tvt_AOFIWdRuYErXKSCw0MMg15-L0z-QDjCLj6GCg", 
+            name: "channel two",
+            id: "1"
+        }
+    ]
     // testWebhooks = []
 
-    const webHookList = testWebhooks.map((webhook, index) => {
-        return <Webhook id={index} webhook={webhook} />
+    const webHookList = testWebhooks.map((hookObj) => {
+        return <Webhook 
+            id={hookObj.id} 
+            webhook={hookObj.webhook} 
+            channel_name={hookObj.name}
+            update={getWebhooks}
+        />
     })
 
     return <>
@@ -176,16 +197,20 @@ export default function Preferences() {
             a URL. Copy that url and paste it below. Now your alerts will be posted directly to your channel in Microsoft Teams!
         </p>
         </div>
-        <h3>Current Integrations</h3>
-        <hr />
-        <div className="webhooks">
-            <button className="add-webhook-btn">
-                <FaPlus />
-                Add channel
-            </button>
-            <ul>
-                {webHookList}
-            </ul>
+    </div>
+    <div className="teams-section">
+        <div>
+            <h2>Current Channels</h2>
+            <hr />
+            <div className="webhooks">
+                <button className="add-webhook-btn">
+                    <FaPlus />
+                    Add channel
+                </button>
+                <ul>
+                    {webHookList}
+                </ul>
+            </div>
         </div>
     </div>
     </>
