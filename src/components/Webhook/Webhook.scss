@@ -4,6 +4,10 @@ li.previous-webhook {
     gap: 30px;
     margin-bottom: 5px;
 
+    .url-container {
+        text-align: left;
+    }
+
     button.delete-btn {
         background-color: var(--background-slight-blue);
         color: var(--error-color);

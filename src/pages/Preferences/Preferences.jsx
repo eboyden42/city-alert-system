@@ -6,6 +6,7 @@ import Info from "../../components/Info/Info"
 import "./Preferences.scss"
 import { FaPlus } from "react-icons/fa"
 import Webhook from "../../components/Webhook/Webhook"
+import { BsCloudUpload } from "react-icons/bs"
 
 export default function Preferences() {
 
@@ -22,6 +23,12 @@ export default function Preferences() {
     const [showInfo, setShowInfo] = useState(false)
     const [error, setError] = useState("There has been an error.")
     const [info, setInfo] = useState("There is no more information at this time.")
+
+    // webhook state
+    const [webhooks, setWebhooks] = useState([])
+    const [showInputBox, setShowInputBox] = useState(false)
+    const [webhookText, setWebhookText] = useState("")
+    const [channelName, setChannelName] = useState("")
 
     function displayError(message) {
         setError(message)
@@ -42,12 +49,7 @@ export default function Preferences() {
             setPreferences(data)
         }
     }
-
-    async function getWebhooks() {
-        // call supabase to get updated webhooks and store them in state
-        console.log("getting updated webhooks")
-    }
-
+    
     function handleCheck(e) {
         const target = e.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -78,14 +80,14 @@ export default function Preferences() {
                 }
             }
         }
-
+        
         let isError = false
-
+        
         // send any differing updates/deletes to supabase
         for (const update of updates) {
             const { error }  = await supabase
-                .from('user_alert_types')
-                .insert({user_id: user.id, alert_type_id: update.id})
+            .from('user_alert_types')
+            .insert({user_id: user.id, alert_type_id: update.id})
             if (error) {
                 isError = true
                 console.error(error.message)
@@ -96,7 +98,7 @@ export default function Preferences() {
 
         for (const del of deletes) {
             const res = await supabase
-                .from('user_alert_types')
+            .from('user_alert_types')
                 .delete()
                 .eq('user_id', user.id)
                 .eq('alert_type_id', del.id)
@@ -114,11 +116,41 @@ export default function Preferences() {
             getPreferenceTypes()
         }
     }
+    
+    async function getWebhooks() {
+        // call supabase to get updated webhooks and store them in state
+        console.log("getting webhooks")
+        console.log(user.id)
+        const { data, error } = await supabase.from('user_integrations').select('teams_webhook, channel_name, id').eq('user_id', user.id)
+        if (error) {
+            console.log(error.message)
+        } else {
+            setWebhooks(data)
+        }
+    }
+
+    async function addWebhook() {
+        // call supabase to add webhook
+        console.log("adding webhook")
+        const { data, error } = await supabase.from('user_integrations').insert({teams_webhook: webhookText, channel_name: channelName})
+        if (error) {
+            console.log(error.message)
+        } else {
+            console.log(data)
+            getWebhooks()
+        }
+        setShowInputBox(false)
+        setChannelName("")
+        setWebhookText("")
+    }
 
     useEffect(() => {
         getPreferenceTypes()
+        getWebhooks()
     }, [isLoading])
-
+    
+    
+    
     const preferencesList = preferences.map((item, index) => 
         <li key={item.id}>
             <label>
@@ -128,26 +160,13 @@ export default function Preferences() {
         </li>
     )
 
-    const testWebhooks = [
-        {
-            webhook: "https://prod-51.usgovtexas.logic.azure.us:443/workflows/1b818caa5b59451489f17a0ba5300900/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=67tvt_AOFIWdRuYErXKSCw0MMg15-L0z-QDjCLj6GCg", 
-            name: "channel one",
-            id: "15"
-        }, 
-        {
-            webhook: "https://prod-51.usgovtexas.logic.azure.us:443/workflows/1b818caa5b59451489f17a0ba5300900/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=67tvt_AOFIWdRuYErXKSCw0MMg15-L0z-QDjCLj6GCg", 
-            name: "channel two",
-            id: "1"
-        }
-    ]
-    // testWebhooks = []
-
-    const webHookList = testWebhooks.map((hookObj) => {
+    const webHookList = webhooks.map((hookObj, index) => {
         return <Webhook 
-            id={hookObj.id} 
-            webhook={hookObj.webhook} 
-            channel_name={hookObj.name}
+            id={hookObj.id}
+            webhook={hookObj.teams_webhook} 
+            channel_name={hookObj.channel_name}
             update={getWebhooks}
+            key={index}
         />
     })
 
@@ -194,7 +213,7 @@ export default function Preferences() {
             the channel you want to add, and click the three dots in the top right corner. Then click through <span>Workflows 
             &gt; More Workflows</span> and select <span>Post to a channel when a Webhook request is received</span>. Enter any name
             you like, and then select your desired team and channel. You should then see <span>Workflow added successfully!</span>, along with
-            a URL. Copy that url and paste it below. Now your alerts will be posted directly to your channel in Microsoft Teams!
+            a URL. Copy that url, click Add Channel, paste the link and click Save. Now your alerts will be posted directly to your channel in Microsoft Teams!
         </p>
         </div>
     </div>
@@ -203,13 +222,33 @@ export default function Preferences() {
             <h2>Current Channels</h2>
             <hr />
             <div className="webhooks">
-                <button className="add-webhook-btn">
+                <button className="add-webhook-btn" onClick={() => setShowInputBox(prev => !prev)}>
                     <FaPlus />
                     Add channel
                 </button>
                 <ul>
                     {webHookList}
                 </ul>
+                {
+                    showInputBox ? (
+                    <div className="add-channels">
+                        <input 
+                            className="name-input"
+                            placeholder="Channel name"
+                            onChange={(e) => setChannelName(e.target.value)}
+                        />
+                        <input 
+                            className="webhook-input"
+                            placeholder="Webhook URL"
+                            onChange={(e) => setWebhookText(e.target.value)}
+                        />
+                        <button className="save-btn" onClick={addWebhook}>
+                            Save
+                            <BsCloudUpload />
+                        </button>
+                    </div>
+                    ) : null
+                }
             </div>
         </div>
     </div>

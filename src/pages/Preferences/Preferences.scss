@@ -27,6 +27,37 @@
                 width: 10px;
             }
         }
+
+        .add-channels {
+            margin-left: 40px;
+            display: flex;
+            gap: 10px;
+
+            input {
+                padding: 0.5rem;
+                font-size: 1rem;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+
+            .name-input {
+                flex-grow: 1
+            }
+
+            .webhook-input {
+                flex-grow: 4;
+            }
+
+            .save-btn {
+                padding: 6px 10px;
+                display: flex;
+                align-items: center;
+                
+                svg {
+                    margin-left: 5px;
+                }
+            }
+        }
     }
 
 }
