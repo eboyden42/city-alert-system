@@ -28,7 +28,7 @@ export default function Dropdown({ children, ...rest}) {
 
     return (
         <DropdownContext.Provider value={{open, setOpen}} >
-            <div className="relative" ref={dropwdownRef} {...rest}>
+            <div className="relative" ref={dropwdownRef} {...rest} data-testid="dropdown-div">
                 {children}
             </div>
         </DropdownContext.Provider>
